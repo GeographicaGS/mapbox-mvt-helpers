@@ -36,7 +36,7 @@ def prepDestFolder(dest_folder):
 def createVectorTiles(layername, filepath, out_folder, zoom_min=0, zoom_max=12):
 
     mvt_creation = ["tippecanoe", "-o", os.path.join(out_folder,"{0}.mbtiles".format(layername)),
-        "-Z", str(zoom_min), "-z", str(zoom_max), '{0}'.format(filepath)]
+        "-q", "-Z", str(zoom_min), "-z", str(zoom_max), '{0}'.format(filepath)]
     
     print("Launched MVT creation...")
     out, err = cmdCall(mvt_creation)
@@ -99,7 +99,7 @@ def run():
 
         createVectorTiles(mvt_name, ly, out_folder, zoom_min=2, zoom_max=10)
         
-        # uploadToMapbox(mvt_name, os.path.join(out_folder, "{0}.mbtiles".format(mvt_name)))
+        uploadToMapbox(mvt_name, os.path.join(out_folder, "{0}.mbtiles".format(mvt_name)))
 
 
 if __name__ == '__main__':

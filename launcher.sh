@@ -18,10 +18,10 @@
 #  MA 02110-1301, USA.
 #
 
-IN_FOLDER="/myfolderdata"
+IN_FOLDER="/mygeojsondatafolder"
 OUT_FOLDER="/tmp/mvt_data/"
 
-if [ -z ${MAPBOX_ACCESS_TOKENDD+x} ];
+if [ -z ${MAPBOX_ACCESS_TOKEN+x} ];
 then 
   echo "MAPBOX_ACCESS_TOKEN is unset. Exiting...";
   exit 1;
