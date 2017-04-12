@@ -1,4 +1,5 @@
 
+import sys
 import os
 import glob
 import shutil
@@ -67,8 +68,8 @@ def cmdCall(params):
 
 def run():
     
-    in_folder = '/media/cayetano/Data/documentos/cayetano/gdrive/Geographica/Proyectos/IUCN MED/operaciones/geojson_data'
-    out_folder = '/tmp/mvt_test/'
+    in_folder = sys.argv[1]
+    out_folder = sys.argv[2]
     layernames = glob.glob(os.path.join(in_folder,'*.geojson'))
     
     prepDestFolder(out_folder)
@@ -79,7 +80,7 @@ def run():
 
         createVectorTiles(mvt_name, ly, out_folder, zoom_min=2, zoom_max=10)
         
-        uploadToMapbox(mvt_name, os.path.join(out_folder, "{0}.mbtiles".format(mvt_name)))
+        # uploadToMapbox(mvt_name, os.path.join(out_folder, "{0}.mbtiles".format(mvt_name)))
 
 
 if __name__ == '__main__':
