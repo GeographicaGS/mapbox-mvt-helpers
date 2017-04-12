@@ -1,5 +1,5 @@
 
-IN_FOLDER="/media/cayetano/Data/documentos/cayetano/gdrive/Geographica/Proyectos/IUCN MED/operaciones/geojson_data"
+IN_FOLDER="/myfolderdata"
 OUT_FOLDER="/tmp/mvt_data/"
 
 if [ -z ${MAPBOX_ACCESS_TOKENDD+x} ];
