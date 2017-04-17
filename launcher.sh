@@ -18,8 +18,11 @@
 #  MA 02110-1301, USA.
 #
 
-IN_FOLDER="/mygeojsondatafolder"
+IN_FOLDER="/home/cayetano/dev_projs/iucn-med-storymaps-mvt-data/data/geojson"
 OUT_FOLDER="/tmp/mvt_data/"
+
+MAPBOX_STYLE_PATH="/home/cayetano/dev_projs/iucn-med-storymaps-mvt-data/mvt-styles/iucn-med-butterflies/style.json"
+MAPBOX_USER="cayetanobv"
 
 if [ -z ${MAPBOX_ACCESS_TOKEN+x} ];
 then 
@@ -29,4 +32,4 @@ else
   echo "MAPBOX_ACCESS_TOKEN is set";
 fi
 
-python3 createandupload_mvt.py "$IN_FOLDER" "$OUT_FOLDER"
+python3 createandupload_mvt.py "$IN_FOLDER" "$OUT_FOLDER" "$MAPBOX_USER" "$MAPBOX_STYLE_PATH"

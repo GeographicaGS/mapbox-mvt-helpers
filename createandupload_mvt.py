@@ -20,12 +20,18 @@
 
 import sys
 import os
+import json
 import glob
+import time
+import requests
 import shutil
 import datetime
 import subprocess
 from time import sleep
 from mapbox import Uploader
+
+
+MAPBOX_STYLESAPI_URL = "https://api.mapbox.com/styles/v1/"
 
 
 def prepDestFolder(dest_folder):
@@ -69,6 +75,66 @@ def uploadToMapbox(layername, filepath):
         print("Upload mvt error: {0}".format(err))
 
 
+def cleanMVTStyle(styles_json, props):
+    print("Cleaning MVT Style...")
+    for pr in props:
+        if pr in styles_json.keys():
+            styles_json.pop(pr)
+
+
+def checkMVTStyle(user, style_id):
+    
+    print("Checking if MVT Style exists...")
+    
+    url = "{0}{1}/{2}".format(MAPBOX_STYLESAPI_URL, user, style_id)
+
+    headers = {}
+    
+    querystring = {"access_token": os.environ['MAPBOX_ACCESS_TOKEN']}
+
+    resp = requests.request("GET", url, headers=headers, params=querystring, timeout=10)
+
+    if resp.status_code != requests.codes.ok:
+        if resp.json()['message'] == 'Style not found':
+            return True
+        else:
+            resp.raise_for_status()
+    
+    return False
+
+
+def createMVTStyle(user, style_path):
+    
+    with open(style_path, 'r') as style_data:
+        json_data = json.load(style_data)
+        
+    if checkMVTStyle(user, json_data['id']):
+        print('This MVT Style ({0}) already exists...'.format(json_data['id']))
+        return
+    
+    url = "{0}{1}".format(MAPBOX_STYLESAPI_URL, user)
+    
+    cleanMVTStyle(json_data, [
+        "created", "id", "modified", "owner", "draft"
+        ])
+    
+    print("Creating new MVT style...")
+    
+    payload = json.dumps(json_data)
+    
+    headers = {'content-type': "application/json"}
+    
+    querystring = {"access_token": os.environ['MAPBOX_ACCESS_TOKEN']}
+
+    resp = requests.request("POST", url, headers=headers, params=querystring, 
+        data=payload, timeout=10)
+
+    if resp.status_code != requests.codes.ok:
+        resp.raise_for_status()
+    
+    print("MVT Styles created...")
+
+
 def cmdCall(params):
     """
     Launch shell commands
@@ -89,12 +155,20 @@ def run():
     
     in_folder = sys.argv[1]
     out_folder = sys.argv[2]
+    
+    if len(sys.argv) > 3:
+        mapbox_user = sys.argv[3]
+        style_path = sys.argv[4]
+        
+        createMVTStyle(mapbox_user, style_path)
+    
     layernames = glob.glob(os.path.join(in_folder,'*.geojson'))
     
     prepDestFolder(out_folder)
     
     for ly in layernames:
-        tdy = datetime.datetime.today().strftime('%Y%m%d_%H%M%S')
+        time.sleep(1)
+        tdy = datetime.datetime.today().strftime('%Y%m%d')
         mvt_name = "{0}_{1}".format(os.path.splitext(os.path.basename(ly))[0], tdy)
 
         createVectorTiles(mvt_name, ly, out_folder, zoom_min=2, zoom_max=10)
