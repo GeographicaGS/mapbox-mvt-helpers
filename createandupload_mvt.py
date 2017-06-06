@@ -157,7 +157,7 @@ def run():
         in_folder = sys.argv[1]
         out_folder = sys.argv[2]
         
-        if len(sys.argv) > 3:
+        if len(sys.argv) > 4:
             mapbox_user = sys.argv[3]
             style_path = sys.argv[4]
             
