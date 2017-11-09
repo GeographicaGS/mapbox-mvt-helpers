@@ -25,10 +25,10 @@ MAPBOX_STYLE_PATH="/home/cayetano/dev_projs/iucn-med-storymaps-mvt-data/mvt-styl
 MAPBOX_USER="cayetanobv"
 
 if [ -z ${MAPBOX_ACCESS_TOKEN+x} ];
-then 
+then
   echo "MAPBOX_ACCESS_TOKEN is unset. Exiting...";
   exit 1;
-else 
+else
   echo "MAPBOX_ACCESS_TOKEN is set";
 fi
 
