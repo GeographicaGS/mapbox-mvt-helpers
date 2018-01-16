@@ -18,10 +18,10 @@
 #  MA 02110-1301, USA.
 #
 
-IN_FOLDER="/home/cayetano/dev_projs/iucn-med-storymaps-mvt-data/data/geojson"
+IN_FOLDER="~/dev_projs/iucn-med-storymaps-mvt-data/data/geojson"
 OUT_FOLDER="/tmp/mvt_data/"
 
-MAPBOX_STYLE_PATH="/home/cayetano/dev_projs/iucn-med-storymaps-mvt-data/mvt-styles/iucn-med-butterflies/style.json"
+MAPBOX_STYLE_PATH="~/dev_projs/iucn-med-storymaps-mvt-data/mvt-styles/iucn-med-butterflies/style.json"
 MAPBOX_USER="cayetanobv"
 
 if [ -z ${MAPBOX_ACCESS_TOKEN+x} ];
